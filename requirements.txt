@@ -1,0 +1,6 @@
+faster-whisper
+pyttsx3
+sounddevice
+scipy
+python-dotenv
+google-generativeai
