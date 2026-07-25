@@ -24,6 +24,13 @@ class CommandParser:
             "calculate": "calculator",
 
             "terminal": "command prompt",
+            "cmd": "command prompt",
+
+            "explorer": "explorer",
+            "files": "explorer",
+
+            "powershell": "powershell",
+            "power shell": "powershell",
         }
 
         self.ignore_words = {
@@ -31,6 +38,7 @@ class CommandParser:
             "can",
             "could",
             "would",
+            "will",
             "you",
             "me",
             "my",
@@ -44,7 +52,10 @@ class CommandParser:
             "start",
             "run",
             "use",
-            "show"
+            "show",
+            "opening",
+            "app",
+            "application"
         }
 
     def clean_text(self, text: str) -> str:
@@ -66,10 +77,13 @@ class CommandParser:
         return " ".join(words)
 
     def parse(self, text: str):
+        """
+        Returns the canonical application name if found.
+        """
 
         cleaned = self.clean_text(text)
 
-        # Search registry aliases
+        # Match application names
 
         for app, details in APPS.items():
 
@@ -81,11 +95,11 @@ class CommandParser:
                 if alias in cleaned:
                     return app
 
-        # Search extra aliases
+        # Match extra aliases
 
-        for word, app in self.extra_aliases.items():
+        for alias, app in self.extra_aliases.items():
 
-            if word in cleaned:
+            if alias in cleaned:
                 return app
 
         return None

@@ -2,33 +2,19 @@ from brain.intent_detector import IntentDetector
 
 detector = IntentDetector()
 
-tests = [
-
-    "Open calculator",
-
-    "Please open calculator",
-
-    "Can you open calculator",
-
-    "I want to draw",
-
-    "I want to paint",
-
-    "I want to write",
-
-    "Run terminal",
-
-    "Start command prompt",
-
-    "What is gravity?",
-
-    "Who made Python?"
+commands = [
+    "open calculator",
+    "open github",
+    "shutdown my pc",
+    "restart computer",
+    "lock laptop",
+    "exit assistant",
+    "close calculator",
+    "close notepad",
+    "close paint",
 ]
 
-for sentence in tests:
-
-    print(sentence)
-
-    print(detector.detect(sentence))
-
+for cmd in commands:
+    print(cmd)
+    print(detector.detect(cmd))
     print("-" * 40)

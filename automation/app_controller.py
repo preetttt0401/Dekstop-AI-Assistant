@@ -60,3 +60,36 @@ class AppController:
             logger.error(e)
 
             return False
+        
+        def close_app(self, app_name: str):
+            """
+            Closes an application using taskkill.
+            """
+
+            app = self.find_application(app_name)
+
+            if app is None:
+                logger.warning(f"Unknown application: {app_name}")
+                return False
+
+            try:
+
+                command = app["command"]
+
+                if command.endswith(".exe"):
+
+                    subprocess.run(
+                        ["taskkill", "/F", "/IM", command],
+                        capture_output=True
+                    )
+
+                    logger.info(f"{app_name} closed successfully.")
+                    return True
+
+                return False
+
+            except Exception as e:
+
+                logger.error(e)
+
+                return False

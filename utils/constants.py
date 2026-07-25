@@ -15,6 +15,8 @@ CLOSE_APP = "CLOSE_APP"
 # Website Commands
 # ===========================
 OPEN_WEBSITE = "OPEN_WEBSITE"
+SEARCH_GOOGLE = "SEARCH_GOOGLE"
+SEARCH_YOUTUBE = "SEARCH_YOUTUBE"
 
 
 # ===========================
@@ -30,6 +32,8 @@ MOVE_FILE = "MOVE_FILE"
 COPY_FILE = "COPY_FILE"
 RENAME_FILE = "RENAME_FILE"
 
+OPEN_FOLDER = "OPEN_FOLDER"
+
 
 # ===========================
 # System Commands
@@ -37,6 +41,7 @@ RENAME_FILE = "RENAME_FILE"
 SHUTDOWN_PC = "SHUTDOWN_PC"
 RESTART_PC = "RESTART_PC"
 LOCK_PC = "LOCK_PC"
+TAKE_SCREENSHOT = "TAKE_SCREENSHOT"
 
 
 # ===========================
@@ -51,3 +56,5 @@ CHAT = "CHAT"
 # ===========================
 EXIT = "EXIT"
 UNKNOWN = "UNKNOWN"
+TIME = "TIME"
+DATE = "DATE"
