@@ -1,26 +1,34 @@
-class ConversationManager:
+from models.llm import llm
+from brain.prompt import SYSTEM_PROMPT
+
+from utils.logger import logger
+
+
+class Conversation:
     """
-    Stores conversation history between the user
-    and the assistant.
+    Handles AI conversations using Gemini.
     """
 
     def __init__(self):
-        self.history = []
 
-    def add_user_message(self, message):
-        self.history.append({
-            "role": "user",
-            "content": message
-        })
+        logger.info("Conversation module initialized.")
 
-    def add_assistant_message(self, message):
-        self.history.append({
-            "role": "assistant",
-            "content": message
-        })
+    def ask(self, question: str) -> str:
 
-    def get_history(self):
-        return self.history
+        logger.info(f"Question: {question}")
 
-    def clear_history(self):
-        self.history = []
+        prompt = f"""
+{SYSTEM_PROMPT}
+
+User: {question}
+
+Assistant:
+"""
+
+        response = llm.invoke(prompt)
+
+        answer = response.content.strip()
+
+        logger.info("Response generated successfully.")
+
+        return answer

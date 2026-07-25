@@ -2,10 +2,18 @@ from automation.app_controller import AppController
 
 controller = AppController()
 
-print(controller.open_app("calculator"))
+print("=" * 50)
+print("Desktop AI Assistant - App Launcher Test")
+print("Type 'exit' to quit.")
+print("=" * 50)
 
-print(controller.open_app("calc"))
+while True:
+    app_name = input("\nEnter application name: ").strip()
 
-print(controller.open_app("math"))
+    if app_name.lower() == "exit":
+        print("Exiting test...")
+        break
 
-print(controller.open_app("paint"))
+    result = controller.open_app(app_name)
+
+    print(result)

@@ -1,5 +1,5 @@
 import subprocess
-
+import os
 from automation.app_registry import APPS
 from utils.logger import logger
 
@@ -42,7 +42,14 @@ class AppController:
 
         try:
 
-            subprocess.Popen(app["command"])
+            command = app["command"]
+
+            # Windows URI (Settings etc.)
+            if command.startswith("ms-"):
+                os.startfile(command)
+
+            else:
+                subprocess.Popen(command)
 
             logger.info(f"{app_name} opened successfully.")
 

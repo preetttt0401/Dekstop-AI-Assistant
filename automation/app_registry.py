@@ -4,8 +4,8 @@ Application Registry
 Stores all supported desktop applications and their aliases.
 """
 
-
 APPS = {
+
     "calculator": {
         "aliases": [
             "calculator",
@@ -19,7 +19,8 @@ APPS = {
     "notepad": {
         "aliases": [
             "notepad",
-            "notes"
+            "notes",
+            "text editor"
         ],
         "command": "notepad.exe"
     },
@@ -28,7 +29,8 @@ APPS = {
         "aliases": [
             "paint",
             "drawing",
-            "drawing app"
+            "drawing app",
+            "draw"
         ],
         "command": "mspaint.exe"
     },
@@ -44,7 +46,8 @@ APPS = {
 
     "powershell": {
         "aliases": [
-            "powershell"
+            "powershell",
+            "power shell"
         ],
         "command": "powershell.exe"
     },
@@ -54,5 +57,80 @@ APPS = {
             "wordpad"
         ],
         "command": "write.exe"
+    },
+
+    "explorer": {
+        "aliases": [
+            "file explorer",
+            "explorer",
+            "my files",
+            "files"
+        ],
+        "command": "explorer.exe"
+    },
+
+    "task manager": {
+        "aliases": [
+            "task manager",
+            "tasks"
+        ],
+        "command": "taskmgr.exe"
+    },
+
+    "settings": {
+        "aliases": [
+            "settings",
+            "windows settings"
+        ],
+        "command": "ms-settings:"
+    },
+
+    "snipping tool": {
+        "aliases": [
+            "snipping tool",
+            "snip",
+            "screenshot tool"
+        ],
+        "command": "snippingtool.exe"
+    },
+
+    "magnifier": {
+        "aliases": [
+            "magnifier",
+            "zoom"
+        ],
+        "command": "magnify.exe"
+    },
+
+    "onscreen keyboard": {
+        "aliases": [
+            "keyboard",
+            "on screen keyboard",
+            "virtual keyboard"
+        ],
+        "command": "osk.exe"
+    },
+
+    "character map": {
+        "aliases": [
+            "character map",
+            "symbols"
+        ],
+        "command": "charmap.exe"
+    },
+
+    "registry editor": {
+        "aliases": [
+            "registry",
+            "registry editor"
+        ],
+        "command": "regedit.exe"
+    },
+
+    "control panel": {
+        "aliases": [
+            "control panel"
+        ],
+        "command": "control.exe"
     }
 }
