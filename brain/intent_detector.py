@@ -5,14 +5,21 @@ from utils.helpers import normalize_text
 
 from utils.constants import (
     OPEN_APP,
+    CLOSE_APP,
     OPEN_WEBSITE,
+    OPEN_FOLDER,
+    SEARCH_GOOGLE,
     CREATE_FOLDER,
+    CREATE_FILE,
     SHUTDOWN_PC,
     RESTART_PC,
     LOCK_PC,
+    TAKE_SCREENSHOT,
+    BATTERY_STATUS,
     EXIT,
     GENERAL_QUESTION,
-    CLOSE_APP
+    GET_TIME,
+    GET_DATE,
 )
 
 
@@ -30,13 +37,13 @@ class IntentDetector:
             "visit",
             "go"
         ]
-        
+
         self.close_words = [
             "close",
+            "stop",
             "terminate",
             "kill",
-            "stop"
-            ]
+        ]
 
         self.website_names = {
             "google",
@@ -51,31 +58,22 @@ class IntentDetector:
             "instagram",
             "facebook",
             "twitter",
-            "x"
+            "x",
+            "leetcode",
+            "netflix",
+            "spotify",
+            "reddit",
+            "geeksforgeeks",
+            "codeforces",
         }
 
-        self.shutdown_words = {
-            "shutdown",
-            "shut",
-            "poweroff",
-            "power",
-            "turn"
-        }
-
-        self.restart_words = {
-            "restart",
-            "reboot"
-        }
-
-        self.lock_words = {
-            "lock"
-        }
-
-        self.exit_words = {
-            "exit",
-            "quit",
-            "close",
-            "bye"
+        self.folder_names = {
+            "desktop",
+            "documents",
+            "downloads",
+            "pictures",
+            "music",
+            "videos",
         }
 
     def detect(self, text):
@@ -86,22 +84,6 @@ class IntentDetector:
 
         words = text.split()
 
-        # -------------------------
-        # OPEN APP
-        # -------------------------
-
-        for word in self.open_words:
-
-            if word in words:
-
-                app = self.command_parser.parse(original_text)
-
-                if app:
-
-                    return {
-                        "intent": OPEN_APP,
-                        "entity": app
-                    }
         # -------------------------
         # CLOSE APP
         # -------------------------
@@ -120,48 +102,81 @@ class IntentDetector:
                     }
 
         # -------------------------
+        # OPEN APP
+        # -------------------------
+
+        for word in self.open_words:
+
+            if word in words:
+
+                app = self.command_parser.parse(original_text)
+
+                if app:
+
+                    return {
+                        "intent": OPEN_APP,
+                        "entity": app
+                    }
+
+        # -------------------------
         # OPEN WEBSITE
         # -------------------------
 
-        for i, word in enumerate(words):
+        for word in words:
 
-            if word in self.open_words:
+            if word in self.website_names:
 
-                if i + 1 < len(words):
+                return {
+                    "intent": OPEN_WEBSITE,
+                    "entity": word
+                }
 
-                    next_word = words[i + 1]
+        # -------------------------
+        # OPEN FOLDER
+        # -------------------------
 
-                    app = self.command_parser.parse(next_word)
+        for folder in self.folder_names:
 
-                    if app is None:
+            if folder in words:
 
-                        return {
-                            "intent": OPEN_WEBSITE,
-                            "entity": next_word
-                        }
+                return {
+                    "intent": OPEN_FOLDER,
+                    "entity": folder
+                }
+
+        # -------------------------
+        # GOOGLE SEARCH
+        # -------------------------
+
+        if (
+            text.startswith("search ")
+            or text.startswith("google ")
+            or text.startswith("find ")
+        ):
+
+            query = re.sub(
+                r"^(search|google|find)\s+",
+                "",
+                original_text,
+                flags=re.IGNORECASE
+            )
+
+            return {
+                "intent": SEARCH_GOOGLE,
+                "entity": query.strip()
+            }
 
         # -------------------------
         # CREATE FOLDER
         # -------------------------
 
-        if (
-            ("folder" in words or "directory" in words)
-            and (
-                "create" in words
-                or "make" in words
-                or "new" in words
-            )
-        ):
-
-            folder_name = original_text
+        if "folder" in words:
 
             folder_name = re.sub(
-                r"(?i)(create|make|new|folder|directory|named|called)",
+                r"(?i)(create|make|new|folder|named|called|directory)",
                 "",
-                folder_name
-            )
-
-            folder_name = folder_name.strip()
+                original_text
+            ).strip()
 
             if folder_name:
 
@@ -171,15 +186,85 @@ class IntentDetector:
                 }
 
         # -------------------------
-        # SHUTDOWN
+        # CREATE FILE
+        # -------------------------
+
+        if "file" in words:
+
+            file_name = re.sub(
+                r"(?i)(create|make|new|file|named|called)",
+                "",
+                original_text
+            ).strip()
+
+            if file_name:
+
+                return {
+                    "intent": CREATE_FILE,
+                    "entity": file_name
+                }
+
+        # -------------------------
+        # SCREENSHOT
         # -------------------------
 
         if (
-            "shutdown" in words
-            or ("shut" in words and "down" in words)
-            or ("turn" in words and "off" in words)
-            or ("power" in words and "off" in words)
+            "screenshot" in words
+            or ("screen" in words and "shot" in words)
+            or ("capture" in words and "screen" in words)
         ):
+
+            return {
+                "intent": TAKE_SCREENSHOT,
+                "entity": None
+            }
+
+        # -------------------------
+        # BATTERY STATUS
+        # -------------------------
+
+        if "battery" in words:
+
+            return {
+                "intent": BATTERY_STATUS,
+                "entity": None
+            }
+        
+        # -------------------------
+        # TIME
+        # -------------------------
+
+        if (
+            "time" in words
+            or ("what" in words and "time" in words)
+            or ("current" in words and "time" in words)
+        ):
+
+            return {
+                "intent": GET_TIME,
+                "entity": None
+            }
+
+        # -------------------------
+        # DATE
+        # -------------------------
+
+        if (
+            "date" in words
+            or ("today" in words and "date" in words)
+            or ("current" in words and "date" in words)
+        ):
+
+            return {
+                "intent": GET_DATE,
+                "entity": None
+            }
+
+        # -------------------------
+        # SHUTDOWN
+        # -------------------------
+
+        if "shutdown" in words:
 
             return {
                 "intent": SHUTDOWN_PC,
@@ -190,7 +275,7 @@ class IntentDetector:
         # RESTART
         # -------------------------
 
-        if any(word in words for word in self.restart_words):
+        if "restart" in words:
 
             return {
                 "intent": RESTART_PC,
@@ -212,7 +297,7 @@ class IntentDetector:
         # EXIT
         # -------------------------
 
-        if any(word in words for word in self.exit_words):
+        if "exit" in words or "quit" in words:
 
             return {
                 "intent": EXIT,

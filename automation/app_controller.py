@@ -1,27 +1,25 @@
 import subprocess
 import os
+
 from automation.app_registry import APPS
 from utils.logger import logger
 
 
 class AppController:
-    """
-    Opens desktop applications using the application registry.
-    """
 
     def __init__(self):
+
         logger.info("App Controller initialized.")
 
-    def find_application(self, app_name: str):
-        """
-        Finds an application from its aliases.
-        """
+    # ------------------------------------------------
+
+    def find_application(self, app_name):
 
         app_name = app_name.lower().strip()
 
         for app, details in APPS.items():
 
-            if app_name == app:
+            if app == app_name:
                 return details
 
             if app_name in details["aliases"]:
@@ -29,29 +27,28 @@ class AppController:
 
         return None
 
-    def open_app(self, app_name: str):
-        """
-        Opens an application.
-        """
+    # ------------------------------------------------
+
+    def open_app(self, app_name):
 
         app = self.find_application(app_name)
 
         if app is None:
-            logger.warning(f"Unknown application: {app_name}")
             return False
 
         try:
 
             command = app["command"]
 
-            # Windows URI (Settings etc.)
             if command.startswith("ms-"):
+
                 os.startfile(command)
 
             else:
+
                 subprocess.Popen(command)
 
-            logger.info(f"{app_name} opened successfully.")
+            logger.info(f"Opened {app_name}")
 
             return True
 
@@ -60,36 +57,39 @@ class AppController:
             logger.error(e)
 
             return False
-        
-        def close_app(self, app_name: str):
-            """
-            Closes an application using taskkill.
-            """
 
-            app = self.find_application(app_name)
+    # ------------------------------------------------
 
-            if app is None:
-                logger.warning(f"Unknown application: {app_name}")
-                return False
+    def close_app(self, app_name):
 
-            try:
+        app = self.find_application(app_name)
 
-                command = app["command"]
+        if app is None:
 
-                if command.endswith(".exe"):
+            return False
 
-                    subprocess.run(
-                        ["taskkill", "/F", "/IM", command],
-                        capture_output=True
-                    )
+        try:
 
-                    logger.info(f"{app_name} closed successfully.")
-                    return True
+            exe = app["command"]
 
-                return False
+            exe = exe.replace(".exe", "")
 
-            except Exception as e:
+            subprocess.run(
 
-                logger.error(e)
+                ["taskkill", "/IM", exe + ".exe", "/F"],
 
-                return False
+                capture_output=True,
+
+                text=True
+
+            )
+
+            logger.info(f"Closed {app_name}")
+
+            return True
+
+        except Exception as e:
+
+            logger.error(e)
+
+            return False
