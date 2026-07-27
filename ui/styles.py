@@ -1,65 +1,23 @@
-CSS = """
-<style>
+import customtkinter as ctk
 
-html,
-body,
-.stApp{
-    background:#0f172a;
-}
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
-.block-container{
-    padding-top:1rem;
-    max-width:1200px;
-}
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 750
 
-.main-title{
-    font-size:42px;
-    font-weight:700;
-    color:white;
-    text-align:center;
-}
+BG = "#0f172a"
 
-.sub-title{
-    text-align:center;
-    color:#94a3b8;
-    font-size:18px;
-    margin-bottom:20px;
-}
+SIDEBAR = "#111827"
 
-.status{
-    background:#1e293b;
-    color:white;
-    padding:12px;
-    border-radius:12px;
-    text-align:center;
-    font-weight:bold;
-    margin-bottom:20px;
-}
+CHAT_BG = "#1e293b"
 
-.user{
-    background:#2563eb;
-    color:white;
-    padding:14px;
-    border-radius:12px;
-    margin-top:12px;
-}
+USER_BG = "#2563eb"
 
-.bot{
-    background:#1e293b;
-    color:white;
-    padding:14px;
-    border-radius:12px;
-    margin-top:12px;
-}
+TEXT = "white"
 
-div.stButton > button{
+SECONDARY = "#94a3b8"
 
-    width:100%;
-    height:60px;
-    border-radius:14px;
-    font-size:18px;
+BUTTON = "#2563eb"
 
-}
-
-</style>
-"""
+BUTTON_HOVER = "#1d4ed8"

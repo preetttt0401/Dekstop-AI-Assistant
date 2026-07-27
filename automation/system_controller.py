@@ -4,6 +4,12 @@ from datetime import datetime
 
 import pyautogui
 import psutil
+import pyperclip
+
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+from ctypes import POINTER, cast
+from comtypes import CLSCTX_ALL
+
 from utils.logger import logger
 
 
@@ -148,3 +154,83 @@ class SystemController:
             logger.error(e)
 
             return "Unable to get today's date."
+        
+        # --------------------------------------------------
+
+    def volume_up(self):
+
+        try:
+
+            devices = AudioUtilities.GetSpeakers()
+
+            interface = devices.Activate(
+                IAudioEndpointVolume._iid_,
+                CLSCTX_ALL,
+                None
+            )
+
+            volume = cast(interface, POINTER(IAudioEndpointVolume))
+
+            current = volume.GetMasterVolumeLevelScalar()
+
+            current = min(1.0, current + 0.1)
+
+            volume.SetMasterVolumeLevelScalar(current, None)
+
+            return "Volume increased."
+
+        except Exception as e:
+
+            logger.error(e)
+
+            return "Unable to increase volume."
+
+    # --------------------------------------------------
+
+    def volume_down(self):
+
+        try:
+
+            devices = AudioUtilities.GetSpeakers()
+
+            interface = devices.Activate(
+                IAudioEndpointVolume._iid_,
+                CLSCTX_ALL,
+                None
+            )
+
+            volume = cast(interface, POINTER(IAudioEndpointVolume))
+
+            current = volume.GetMasterVolumeLevelScalar()
+
+            current = max(0.0, current - 0.1)
+
+            volume.SetMasterVolumeLevelScalar(current, None)
+
+            return "Volume decreased."
+
+        except Exception as e:
+
+            logger.error(e)
+
+            return "Unable to decrease volume."
+
+    # --------------------------------------------------
+
+    def get_clipboard(self):
+
+        try:
+
+            text = pyperclip.paste()
+
+            if not text:
+
+                return "Clipboard is empty."
+
+            return f"Clipboard contains:\n{text}"
+
+        except Exception as e:
+
+            logger.error(e)
+
+            return "Unable to access clipboard."
