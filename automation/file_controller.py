@@ -45,9 +45,23 @@ class FileController:
 
     # ------------------------------------------------
 
-    def create_folder(self, folder_path):
+    def create_folder(self, folder_name):
 
         try:
+
+            folder_name = folder_name.strip()
+
+            if os.path.isabs(folder_name):
+
+                folder_path = folder_name
+
+            else:
+
+                # Default to creating inside Desktop instead of
+                # wherever the script happens to be running from.
+                folder_path = os.path.join(
+                    self.common_folders["desktop"], folder_name
+                )
 
             os.makedirs(folder_path, exist_ok=True)
 
@@ -63,7 +77,7 @@ class FileController:
 
     # ------------------------------------------------
 
-    def open_folder(self, folder_name):
+    def open_known_folder(self, folder_name):
 
         try:
 

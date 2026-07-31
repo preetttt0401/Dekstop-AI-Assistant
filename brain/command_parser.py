@@ -1,6 +1,7 @@
 import re
 
 from automation.app_registry import APPS
+from utils.helpers import BASE_FILLER_WORDS
 
 
 class CommandParser:
@@ -33,18 +34,7 @@ class CommandParser:
             "power shell": "powershell",
         }
 
-        self.ignore_words = {
-            "please",
-            "can",
-            "could",
-            "would",
-            "will",
-            "you",
-            "me",
-            "my",
-            "the",
-            "a",
-            "an",
+        self.ignore_words = BASE_FILLER_WORDS | {
             "to",
             "for",
             "open",
@@ -55,7 +45,7 @@ class CommandParser:
             "show",
             "opening",
             "app",
-            "application"
+            "application",
         }
 
     def clean_text(self, text: str) -> str:

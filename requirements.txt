@@ -3,5 +3,10 @@ pyttsx3
 sounddevice
 scipy
 python-dotenv
-google-genai
+langchain-google-genai
 psutil
+pyautogui
+pyperclip
+pycaw
+comtypes
+streamlit

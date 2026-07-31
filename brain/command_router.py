@@ -29,9 +29,11 @@ from utils.constants import (
 
 class CommandRouter:
 
-    def __init__(self):
+    def __init__(self, tts=None):
 
-        self.tts = TextToSpeech()
+        # Reuse a shared TextToSpeech engine if one is passed in,
+        # instead of creating a second pyttsx3 instance.
+        self.tts = tts or TextToSpeech()
 
         self.app_controller = AppController()
         self.browser_controller = BrowserController()
@@ -219,7 +221,7 @@ class CommandRouter:
             self.tts.speak(message)
 
             return
-        
+
         # ----------------------------
         # CURRENT TIME
         # ----------------------------

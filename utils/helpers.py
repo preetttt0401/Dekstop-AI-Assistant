@@ -1,5 +1,21 @@
 import re
 
+# Shared base filler words used across intent parsing.
+# App-specific parsers can extend this set with their own extra words.
+BASE_FILLER_WORDS = {
+    "please",
+    "can",
+    "could",
+    "would",
+    "you",
+    "the",
+    "a",
+    "an",
+    "me",
+    "my",
+    "will",
+}
+
 
 def normalize_text(text: str) -> str:
     """
@@ -10,23 +26,11 @@ def normalize_text(text: str) -> str:
 
     text = re.sub(r"[^\w\s]", "", text)
 
-    filler_words = [
-        "please",
-        "can",
-        "could",
-        "would",
-        "you",
-        "the",
-        "a",
-        "an",
-        "me"
-    ]
-
     words = []
 
     for word in text.split():
 
-        if word not in filler_words:
+        if word not in BASE_FILLER_WORDS:
 
             words.append(word)
 

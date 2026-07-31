@@ -19,7 +19,11 @@ class DesktopAssistant:
         self.tts = TextToSpeech()
 
         self.intent_detector = IntentDetector()
-        self.router = CommandRouter()
+
+        # Pass the single shared TextToSpeech instance into the
+        # router so a second pyttsx3 engine isn't created.
+        self.router = CommandRouter(tts=self.tts)
+
         self.conversation = Conversation()
 
     # -------------------------------------------------

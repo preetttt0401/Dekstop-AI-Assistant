@@ -9,7 +9,7 @@ load_dotenv()
 # ==========================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-LLM_MODEL = "gemini-2.5-flash"
+LLM_MODEL = "gemini-flash-latest"
 
 # ==========================
 # Text-to-Speech Configuration
